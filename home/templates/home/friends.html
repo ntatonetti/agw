@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% if request.user.is_authenticated %}Logged In{% else %}Not Logged In{% endif %}</title>
+    <link rel="stylesheet" type="text/css" href="/static/css/style.css" />
+</head>
+<body class="{% if request.user.is_authenticated %}logged-in{% else %}logged-out{% endif %}">
+	{{ queryset.user_id }}<br/>
+  {{ request.user.socialaccount_set }}<br/>
+  {{ queryset.user }}
+  
+  <ul>
+  	{% for c in queryset.friends %}
+  		<li>{{ c }}</li>
+  	{% endfor %}
+  </ul>
+  
+  <!-- loads the facebook javascript API asyncroneously and saves the token in a cookie for use in the python code -->
+      <div id="fb-root"></div>
+      <script>
+          window.fbAsyncInit = function() {
+              FB.init({appId: '{{ facebook_app_id }}', status: true, cookie: true, xfbml: true});
+          FB.Event.subscribe('auth.logout', function(response) {
+          });
+          FB.Event.subscribe('auth.login', function(response) {
+          });
+      };
+
+      (function() {
+          var e = document.createElement('script');
+          e.type = 'text/javascript';
+          e.src = document.location.protocol + '//connect.facebook.net/en_US/all.js';
+          e.async = true;
+          document.getElementById('fb-root').appendChild(e);
+      }());
+  </script>
+  
+</body>
+</html>
+

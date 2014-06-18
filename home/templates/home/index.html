@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% if request.user.is_authenticated %}Logged In{% else %}Not Logged In{% endif %}</title>
+    <link rel="stylesheet" type="text/css" href="/static/css/style.css" />
+</head>
+<body class="{% if request.user.is_authenticated %}logged-in{% else %}logged-out{% endif %}">
+{% if request.user.is_authenticated %}
+    <img src="{{ request.user.profile.profile_image_url }}"/>
+    {% if request.user.first_name or request.user.last_name %}
+        {{ request.user.first_name }} {{ request.user.last_name }}
+    {% else %}
+        {{ request.user.username }}
+    {% endif %}
+   <!-- {% if request.user.profile.account_verified %} (verified) {% else %} (unverified) {% endif %}-->
+	<p><a href="/accounts/logout/">Logout</a></p>
+	<p><img src="https://i.imgur.com/s4ohWvO.gif"/></p>
+	<p>My Wagers
+		<ul>
+		{% for w in wagers %}
+			<li><a href="wager/{{ w.wager.id }}">{{ w }}</a></li>
+		{% endfor %}
+		</ul>
+	</p>
+	<p><a href="contests/">Create Wager</a></p>
+{% else %}
+	<a href="/accounts/facebook/login/"><div class="fb"></div></a>
+{% endif %}
+
+</body>
+</html>

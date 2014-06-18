@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% if request.user.is_authenticated %}Logged In{% else %}Not Logged In{% endif %}</title>
+    <link rel="stylesheet" type="text/css" href="/static/css/style.css" />
+</head>
+<body class="{% if request.user.is_authenticated %}logged-in{% else %}logged-out{% endif %}">
+	wager: {{ queryset.wager.description }}, amount: ${{ queryset.wager.amount }}</br>
+	contest starts: {{ queryset.wager.contest.contest_close_date }}
+	<p>fb_uid : {{ user.profile.fb_uid }}</p>
+	<ul> 
+	{% for wp in queryset.wager_participants %}
+		<li>{{ wp.user }}: {{ wp.contest_side }}, {{ wp.accepted }}</li>
+	{% endfor %}
+	</ul>
+</body>
+</html>
